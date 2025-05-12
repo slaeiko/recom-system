@@ -1,0 +1,4 @@
+Se eliminaron los campos tipo, marca y modelo del template orden y se añadió prod-id, por lo que para validar que sea un iphone deberás acceder al producto mediante su id y ahí corroborar que el modelo sea un iphone 16
+
+(chdir "d:/Documentos/CUCEI/Semestre_6/KBS/recom-system")
+(batch "run.clp")

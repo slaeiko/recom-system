@@ -1,0 +1,1 @@
+(assert(orden (id 105) (cliente-id 2) (prod-id 1) (pago-id 201) (qty 1) (forma-pago tarjeta) (total 18000)))
