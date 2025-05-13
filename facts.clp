@@ -20,7 +20,15 @@
    (cliente (id 2) (nombre "María López") (tipo mayorista) (telefono "0987654321"))
 
    ;; Órdenes
-  
+   (orden (id 105) (cliente-id 2) (prod-id 1) (pago-id 201) (qty 1) (forma-pago tarjeta) (total 18000))
+   (orden (id 106) (cliente-id 1) (prod-id 2) (pago-id 202) (qty 1) (forma-pago tarjeta) (total 25000))
+   (orden (id 107) (cliente-id 1) (prod-id 3) (pago-id 201) (qty 1) (forma-pago contado) (total 25000))
+   (orden (id 108) (cliente-id 2) (prod-id 4) (pago-id 202) (qty 1) (forma-pago tarjeta) (total 35000))
+   (orden (id 109) (cliente-id 2) (prod-id 7) (pago-id 202) (qty 2) (forma-pago contado) (total 4000))
+   (orden (id 110) (cliente-id 1) (prod-id 5) (pago-id 201) (qty 3) (forma-pago contado) (total 1500))
+   (orden (id 111) (cliente-id 2) (prod-id 6) (pago-id 202) (qty 5) (forma-pago contado) (total 1500))
+   (orden (id 112) (cliente-id 1) (prod-id 8) (pago-id 201) (qty 1) (forma-pago contado) (total 1500))
+
    ;; Tarjetas de crédito
    (tarjetacred (id 201) (banco banamex) (grupo VISA) (titular "Juan Pérez") (exp-date "12/25"))
    (tarjetacred (id 202) (banco liverpool) (grupo VISA) (titular "María López") (exp-date "11/24"))

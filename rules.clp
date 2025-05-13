@@ -1,4 +1,6 @@
-;; En la compra de un iPhone 16 con tarjetas Banamex, ofrece 24 meses sin intereses.
+(facts)
+
+;; 1 En la compra de un iPhone 16 con tarjetas Banamex, ofrece 24 meses sin intereses.
 (defrule promocion-iphone16-banamex
    ?orden <- (orden (id ?id)
                     (prod-id ?prod-id)
@@ -12,7 +14,7 @@
    =>
    (printout t "Promoción aplicada: 24 meses sin intereses con tarjeta Banamex para el iPhone 16. No. Orden " ?id crlf))
 
-;; En la compra de un Samsung Note 21 con tarjeta de Liverpool VISA, ofrece 12 meses sin intereses.
+;; 2 En la compra de un Samsung Note 21 con tarjeta de Liverpool VISA, ofrece 12 meses sin intereses.
 (defrule promocion-samsung-note21-liverpool
    ?orden <- (orden (id ?id)
                     (prod-id ?prod-id)
@@ -26,7 +28,7 @@
    =>
    (printout t "Promoción aplicada: 12 meses sin intereses con tarjeta Liverpool VISA para el Samsung Note 21. No. Orden " ?id crlf))
 
-;; En la compra al contado de una MacBook Air y un iPhone 16, ofrecer 100 pesos en vales por cada 1000 pesos de compra.
+;; 3 En la compra al contado de una MacBook Air y un iPhone 16, ofrecer 100 pesos en vales por cada 1000 pesos de compra.
 (defrule promocion-macbookair-iphone16
    ?orden1 <- (orden (id ?id1)
                      (prod-id ?prod-id1)
@@ -52,7 +54,7 @@
    ;;(printout t "Cliente ID: " ?cliente-id crlf)
    (printout t "Total en vales obtenidos: $" ?vales crlf))
 
-;; Si el cliente compra un Smartphone, ofrecer una funda y mica con un 15% de descuento sobre accesorios.
+;; 4 Si el cliente compra un Smartphone, ofrecer una funda y mica con un 15% de descuento sobre accesorios.
 (defrule promocion-accesorios-smartphone
    ?orden <- (orden (id ?id)
                     (prod-id ?prod-id))
@@ -61,7 +63,7 @@
    (printout t "Promo: 15% de descuento en funda y mica al comprar un Smartphone." crlf)
    (printout t "Orden que activó la promoción: ID " ?id crlf))
 
-;; Si el cliente compra un accesorio con un descuento mayor al 10%, validar que el ID del accesorio coincida con el de la orden e imprimir un mensaje indicando el ahorro.
+;; 5 Si el cliente compra un accesorio con un descuento mayor al 10%, validar que el ID del accesorio coincida con el de la orden e imprimir un mensaje indicando el ahorro.
 (defrule promocion-accesorio-descuento
    ?orden <- (orden (id ?orden-id)
                     (prod-id ?prod-id))
@@ -70,7 +72,7 @@
    =>
    (printout t "Promoción aplicada: El accesorio con ID " ?prod-id " en la orden ID " ?orden-id " tiene un descuento del " ?descuento "%." crlf))
    
-;; Si el cliente compra una computadora con más de 16GB de RAM, ofrecer un mouse gratis.
+;; 6 Si el cliente compra una computadora con más de 16GB de RAM, ofrecer un mouse gratis.
 (defrule promocion-computadora-ram
    ?orden <- (orden (id ?orden-id)
                      (prod-id ?prod-id))
@@ -79,7 +81,7 @@
    =>
    (printout t "Promoción aplicada: La computadora con ID " ?prod-id " en la orden ID " ?orden-id " incluye un mouse gratis por tener más de 16GB de RAM." crlf))
 
-;; Si el cliente compra un smartphone y una computadora, validar que ambos sean de la misma marca, no estén en promoción, y pertenezcan al mismo cliente, y ofrecer un 10% de descuento en el total.
+;; 7 Si el cliente compra un smartphone y una computadora, validar que ambos sean de la misma marca, no estén en promoción, y pertenezcan al mismo cliente, y ofrecer un 10% de descuento en el total.
 (defrule promocion-smartphone-computadora-misma-marca
    ?orden1 <- (orden (id ?id1)
                      (prod-id ?prod-id1)
@@ -103,7 +105,7 @@
    (printout t "Cliente ID: " ?cliente-id crlf)
    (printout t "Descuento total: $" ?descuento crlf))
 
-;; Si el cliente es mayorista y compra más de 10 unidades de cualquier producto, ofrecer un 5% de descuento adicional.
+;; 8 Si el cliente es mayorista y compra más de 10 unidades de cualquier producto, ofrecer un 5% de descuento adicional.
 (defrule promocion-mayorista
    ?cliente <- (cliente (id ?cliente-id)
                         (tipo mayorista))
@@ -295,6 +297,7 @@
 
 ;; Regla para encontrar clientes que no han comprado nada.
 (defrule clientes-sin-compras
+   (declare (salience -99))
    (cliente (id ?cliente-id) (nombre ?nombre))
    (not (orden (cliente-id ?cliente-id)))
    =>
@@ -330,8 +333,6 @@
    =>
    (printout t "Cliente: " ?nombre " (ID: " ?cliente-id "), Tipo: " ?tipo "." crlf))
 
-
-
 ;; Actualizar e imprimir el stock después de una compra
 (defrule actualizar-stock-smartphone
    (declare (salience -100))
@@ -341,9 +342,10 @@
    =>
    (bind ?nuevo-stock (- ?stock ?qty))
    (modify ?p (stock ?nuevo-stock))
-   (retract ?orden)
+
    (printout t "Stock actualizado: Smartphone ID " ?id
-               " ahora tiene " ?nuevo-stock " unidades." crlf))
+               " ahora tiene " ?nuevo-stock " unidades." crlf)
+               (halt)(run))
 
 (defrule actualizar-stock-computadora
    (declare (salience -100))
@@ -353,7 +355,8 @@
    =>
    (bind ?nuevo-stock (- ?stock ?qty))
    (modify ?p (stock ?nuevo-stock))
-   (retract ?orden)
+  
    (printout t "Stock actualizado: Computadora ID " ?id
-               " ahora tiene " ?nuevo-stock " unidades." crlf))
+               " ahora tiene " ?nuevo-stock " unidades." crlf)
+               (halt)(run))
                
